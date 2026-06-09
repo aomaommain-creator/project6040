@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คำนวณโครงการ 60/40</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🧮 คำนวณโครงการ 60/40</h1>
+        <p class="subtitle">คำนวณยอดซื้อเพื่อใช้สิทธิ์ให้ครบ</p>
+
+```
+    <div class="ratio-box">
+        สัดส่วน: <span>รัฐจ่าย 60%</span> / <span>ลูกค้าจ่าย 40%</span>
+    </div>
+
+    <div class="input-group">
+        <label for="govRemaining">💰 สิทธิ์รัฐคงเหลือ (ส่วนที่รัฐจ่าย)</label>
+        <div class="input-wrapper">
+            <input type="number" id="govRemaining" placeholder="0" oninput="calculate()">
+            <span class="currency">฿</span>
+        </div>
+    </div>
+
+    <div class="result-box">
+        <div class="result-item">
+            <span class="result-label">🏛️ ส่วนรัฐจ่าย (60%)</span>
+            <span class="result-value" id="govPay">0 ฿</span>
+        </div>
+        <div class="result-item">
+            <span class="result-label">👛 ส่วนลูกค้าต้องมีในวอเล็ต (40%)</span>
+            <span class="result-value" id="customerPay">0 ฿</span>
+        </div>
+        <div class="result-item">
+            <span class="result-label">🛒 ยอดรวมที่ซื้อได้</span>
+            <span class="result-value" id="totalPurchase">0 ฿</span>
+        </div>
+    </div>
+
+    <div class="info">
+        <strong>วิธีคิด:</strong> ถ้าสิทธิ์รัฐเหลือ 60 บาท (60%)
+        → ลูกค้าต้องมี 40 บาท (40%)
+        → ซื้อของได้ 100 บาท
+    </div>
+</div>
+
+<script src="script.js"></script>
+```
+
+</body>
+</html>
