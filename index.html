@@ -1,54 +1,215 @@
 <!DOCTYPE html>
-
 <html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>คำนวณโครงการ 60/40</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Sarabun', 'Prompt', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 450px;
+            width: 100%;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+        
+        .ratio-box {
+            background: #f0f4ff;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .ratio-box span {
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .input-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #444;
+            font-weight: 500;
+        }
+        
+        .input-wrapper {
+            position: relative;
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px 20px;
+            padding-right: 50px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .currency {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-weight: bold;
+        }
+        
+        .result-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 25px;
+            color: white;
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+            padding-top: 15px;
+            margin-top: 5px;
+        }
+        
+        .result-label {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+        
+        .result-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        
+        .result-item:last-child .result-label {
+            font-size: 1.1rem;
+        }
+        
+        .result-item:last-child .result-value {
+            font-size: 1.6rem;
+            color: #ffd700;
+        }
+        
+        .info {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff9e6;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .info strong {
+            color: #e67e22;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>🧮 คำนวณโครงการ 60/40</h1>
         <p class="subtitle">คำนวณยอดซื้อเพื่อใช้สิทธิ์ให้ครบ</p>
-
-```
-    <div class="ratio-box">
-        สัดส่วน: <span>รัฐจ่าย 60%</span> / <span>ลูกค้าจ่าย 40%</span>
-    </div>
-
-    <div class="input-group">
-        <label for="govRemaining">💰 สิทธิ์รัฐคงเหลือ (ส่วนที่รัฐจ่าย)</label>
-        <div class="input-wrapper">
-            <input type="number" id="govRemaining" placeholder="0" oninput="calculate()">
-            <span class="currency">฿</span>
+        
+        <div class="ratio-box">
+            สัดส่วน: <span>รัฐจ่าย 60%</span> / <span>ลูกค้าจ่าย 40%</span>
+        </div>
+        
+        <div class="input-group">
+            <label for="govRemaining">💰 สิทธิ์รัฐคงเหลือ (ส่วนที่รัฐจ่าย)</label>
+            <div class="input-wrapper">
+                <input type="number" id="govRemaining" placeholder="0" oninput="calculate()">
+                <span class="currency">฿</span>
+            </div>
+        </div>
+        
+        <div class="result-box">
+            <div class="result-item">
+                <span class="result-label">🏛️ ส่วนรัฐจ่าย (60%)</span>
+                <span class="result-value" id="govPay">0 ฿</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">👛 ส่วนลูกค้าต้องมีในวอเล็ต (40%)</span>
+                <span class="result-value" id="customerPay">0 ฿</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">🛒 ยอดรวมที่ซื้อได้</span>
+                <span class="result-value" id="totalPurchase">0 ฿</span>
+            </div>
+        </div>
+        
+        <div class="info">
+            <strong>วิธีคิด:</strong> ถ้าสิทธิ์รัฐเหลือ 60 บาท (60%) 
+            → ลูกค้าต้องมี 40 บาท (40%) 
+            → ซื้อของได้ 100 บาท
         </div>
     </div>
 
-    <div class="result-box">
-        <div class="result-item">
-            <span class="result-label">🏛️ ส่วนรัฐจ่าย (60%)</span>
-            <span class="result-value" id="govPay">0 ฿</span>
-        </div>
-        <div class="result-item">
-            <span class="result-label">👛 ส่วนลูกค้าต้องมีในวอเล็ต (40%)</span>
-            <span class="result-value" id="customerPay">0 ฿</span>
-        </div>
-        <div class="result-item">
-            <span class="result-label">🛒 ยอดรวมที่ซื้อได้</span>
-            <span class="result-value" id="totalPurchase">0 ฿</span>
-        </div>
-    </div>
-
-    <div class="info">
-        <strong>วิธีคิด:</strong> ถ้าสิทธิ์รัฐเหลือ 60 บาท (60%)
-        → ลูกค้าต้องมี 40 บาท (40%)
-        → ซื้อของได้ 100 บาท
-    </div>
-</div>
-
-<script src="script.js"></script>
-```
-
+    <script>
+        function calculate() {
+            const govRemaining = parseFloat(document.getElementById('govRemaining').value) || 0;
+            
+            // รัฐจ่าย 60% ลูกค้าจ่าย 40%
+            // ถ้ารัฐจ่าย = 60% ของยอดรวม
+            // ยอดรวม = รัฐจ่าย / 0.6
+            const totalPurchase = govRemaining / 0.6;
+            const customerPay = totalPurchase * 0.4;
+            
+            document.getElementById('govPay').textContent = formatNumber(govRemaining) + ' ฿';
+            document.getElementById('customerPay').textContent = formatNumber(customerPay) + ' ฿';
+            document.getElementById('totalPurchase').textContent = formatNumber(totalPurchase) + ' ฿';
+        }
+        
+        function formatNumber(num) {
+            return num.toLocaleString('th-TH', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+    </script>
 </body>
 </html>
